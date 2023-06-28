@@ -1,11 +1,12 @@
 from github import Github, GithubException
 
-from settings import REPOSITORY, GH_TOKEN, GH_API_URL, COMMIT_MESSAGE
+from settings import REPOSITORY, GH_TOKEN, GH_API_URL, COMMIT_MESSAGE, CREDLY_DIR
 import sys, base64
+
 
 class GithubRepo:
     def __init__(self):
-        self.COMMIT_MESSAGE=COMMIT_MESSAGE
+        self.COMMIT_MESSAGE = COMMIT_MESSAGE
 
         # Automatic GitHub API detection.
         g = Github(base_url=GH_API_URL, login_or_token=GH_TOKEN)
@@ -18,17 +19,27 @@ class GithubRepo:
             )
             sys.exit(1)
         try:
-            self.contents_repo = self.repo.get_readme()
+            self.contents_repo = self.repo.get_contents(CREDLY_DIR)
         except Exception:
-            print(
-                "The readme cannot be obtained!"
-            )
-            sys.exit(1)
+            print("The JSON file cannot be obtained!")
 
-    def save_readme(self, new_readme):
-        self.repo.update_file(
-            path=self.contents_repo.path, message=self.COMMIT_MESSAGE, content=new_readme, sha=self.contents_repo.sha
-        )
-    
-    def get_readme(self):
+    def save_json(self, new_json):
+        if self.contents_repo and self.contents_repo.content == new_json:
+            print("No changes in the JSON file")
+            return
+        elif not self.contents_repo:
+            self.repo.create_file(
+                path=CREDLY_DIR,
+                message=self.COMMIT_MESSAGE,
+                content=new_json,
+            )
+        else:
+            self.repo.update_file(
+                path=CREDLY_DIR,
+                message=self.COMMIT_MESSAGE,
+                content=new_json,
+                sha=self.contents_repo.sha,
+            )
+
+    def get_json(self):
         return str(base64.b64decode(self.contents_repo.content), "utf-8")
