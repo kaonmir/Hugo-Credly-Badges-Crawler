@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+import re
 
 from settings import (
     CREDLY_SORT,
@@ -8,6 +9,23 @@ from settings import (
     BADGE_SIZE,
     NUMBER_LAST_BADGES,
 )
+
+
+uuid_to_url = {
+    # CKS
+    "9945dfcb-1cca-4529-85e6-db1be3782210": "https://www.cncf.io/wp-content/uploads/2020/11/kubernetes-security-specialist-logo.svg",
+    # Add more UUID to URL mappings as needed
+}
+
+
+def convert_image_fancier(img):
+    regex = r"https:\/\/images\.credly\.com\/size\/\d+x\d+\/images\/(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})\/.+"
+    match = re.search(regex, img)
+    if not match:
+        raise Exception("Image not found")
+
+    uuid = match.group(1)
+    return uuid_to_url.get(uuid, img)
 
 
 class Credly:
@@ -37,7 +55,9 @@ class Credly:
         return {
             "title": htmlBadge["title"],
             "href": self.BASE_URL + htmlBadge["href"],
-            "img": img["src"].replace("110x110", f"{BADGE_SIZE}x{BADGE_SIZE}"),
+            "img": convert_image_fancier(
+                img["src"].replace("110x110", f"{BADGE_SIZE}x{BADGE_SIZE}")
+            ),
         }
 
     def return_badges_html(self):
