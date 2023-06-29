@@ -1,11 +1,11 @@
 import os
 
-REPOSITORY = os.getenv("INPUT_REPOSITORY")  # kaonmir/kaonmir.github.io
+REPOSITORY = os.getenv("INPUT_REPOSITORY")
 GH_TOKEN = os.getenv("INPUT_GH_TOKEN")
 GH_API_URL = os.getenv("INPUT_GH_API_URL")
 COMMIT_MESSAGE = os.getenv("INPUT_COMMIT_MESSAGE")
-CREDLY_DIR = os.getenv("INPUT_CREDLY_DIR")  # data/credly.json
-CREDLY_USER = os.getenv("INPUT_CREDLY_USER")  # kaonmir
+CREDLY_DIR = os.getenv("INPUT_CREDLY_DIR")
+CREDLY_USER = os.getenv("INPUT_CREDLY_USER")
 CREDLY_SORT = os.getenv("INPUT_CREDLY_SORT")
 
 BADGE_SIZE = os.getenv("INPUT_BADGE_SIZE", "110")

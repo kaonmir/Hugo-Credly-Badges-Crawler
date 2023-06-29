@@ -1,4 +1,3 @@
-import re
 from services.credly import Credly
 from services.githubRepo import GithubRepo
 
