@@ -27,6 +27,11 @@ inputs:
     description: "The sort type for return credly badges [RECENT/POPULAR]"
     default: RECENT
     required: false
+    
+  CREDLY_DIR:
+    description: "Tthe directory to save the badges json file"
+    default: data/credly.json
+    required: false
   
   BADGE_SIZE:
     description: "Defines the badge dimension."
