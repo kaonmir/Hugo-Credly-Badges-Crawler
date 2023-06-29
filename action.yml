@@ -15,7 +15,7 @@ inputs:
 
   COMMIT_MESSAGE:
     description: "Add a commit message of your choice"
-    default: "Updated README with new badges"
+    default: "Updated data with new badges"
     required: false
 
   CREDLY_USER:
