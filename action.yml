@@ -29,7 +29,7 @@ inputs:
     required: false
     
   CREDLY_DIR:
-    description: "Tthe directory to save the badges json file"
+    description: "The directory to save the badges json file"
     default: data/credly.json
     required: false
   
